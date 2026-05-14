@@ -7,50 +7,67 @@ Script Purpose:
     exitsing tables if already exist.
 ==================================================================
 */
-	TRUNCATE TABLE bronze.cust_info;
-	LOAD DATA LOCAL INFILE '/Users/nicolemedina/Downloads/sql-data-warehouse-project/datasets/source_crm/cust_info.csv'
-	INTO TABLE bronze.crm_cust_info
-	FIELDS TERMINATED BY ','
-	ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
-	IGNORE 1 ROWS;
-    
-    TRUNCATE TABLE bronze.prd_info;
-	LOAD DATA LOCAL INFILE '/Users/nicolemedina/Downloads/sql-data-warehouse-project/datasets/source_crm/prd_info.csv'
-	INTO TABLE bronze.crm_prd_info
-	FIELDS TERMINATED BY ','
-	ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
-	IGNORE 1 ROWS;
-    
-    TRUNCATE TABLE bronze.sales_details;
-	LOAD DATA LOCAL INFILE '/Users/nicolemedina/Downloads/sql-data-warehouse-project/datasets/source_crm/sales_details.csv'
-	INTO TABLE bronze.crm_sales_details
-	FIELDS TERMINATED BY ','
-	ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
-	IGNORE 1 ROWS;
-    
-    TRUNCATE TABLE bronze.CUST_AZ12;
-	LOAD DATA LOCAL INFILE '/Users/nicolemedina/Downloads/sql-data-warehouse-project/datasets/source_erp/CUST_AZ12.csv'
-	INTO TABLE bronze.erp_CUST_AZ12
-	FIELDS TERMINATED BY ','
-	ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
-	IGNORE 1 ROWS;
-    
-    TRUNCATE TABLE bronze.LOC_A101;
-	LOAD DATA LOCAL INFILE '/Users/nicolemedina/Downloads/sql-data-warehouse-project/datasets/source_erp/LOC_A101.csv'
-	INTO TABLE bronze.erp_LOC_A101
-	FIELDS TERMINATED BY ','
-	ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
-	IGNORE 1 ROWS;
-    
-    TRUNCATE TABLE bronze.PX_CAT_G1V2;
-	LOAD DATA LOCAL INFILE '/Users/nicolemedina/Downloads/sql-data-warehouse-project/datasets/source_erp/PX_CAT_G1V2.csv'
-	INTO TABLE bronze.erp_PX_CAT_G1V2
-	FIELDS TERMINATED BY ','
-	ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
-	IGNORE 1 ROWS;
+	CREATE DATABASE IF NOT EXISTS bronze;
+USE bronze;
+
+DROP TABLE IF EXISTS crm_cust_info;
+
+CREATE TABLE bronze.crm_cust_info (
+    cst_id              INT,
+    cst_key             NVARCHAR(50),
+    cst_firstname       NVARCHAR(50),
+    cst_lastname        NVARCHAR(50),
+    cst_marital_status  NVARCHAR(50),
+    cst_gndr            NVARCHAR(50),
+    cst_create_date     DATE
+);
+
+DROP TABLE IF EXISTS crm_prd_info;
+
+CREATE TABLE bronze.crm_prd_info (
+    prd_id       INT,
+    prd_key      NVARCHAR(50),
+    prd_nm       NVARCHAR(50),
+    prd_cost     INT,
+    prd_line     NVARCHAR(50),
+    prd_start_dt DATETIME,
+    prd_end_dt   DATETIME
+);
+
+DROP TABLE IF EXISTS crm_sales_details;
+
+CREATE TABLE bronze.crm_sales_details (
+    sls_ord_num  NVARCHAR(50),
+    sls_prd_key  NVARCHAR(50),
+    sls_cust_id  INT,
+    sls_order_dt INT,
+    sls_ship_dt  INT,
+    sls_due_dt   INT,
+    sls_sales    INT,
+    sls_quantity INT,
+    sls_price    INT
+);
+
+DROP TABLE IF EXISTS erp_loc_a101;
+
+CREATE TABLE bronze.erp_loc_a101 (
+    cid    NVARCHAR(50),
+    cntry  NVARCHAR(50)
+);
+
+DROP TABLE IF EXISTS erp_cust_az12;
+
+CREATE TABLE bronze.erp_cust_az12 (
+    cid    NVARCHAR(50),
+    bdate  DATE,
+    gen    NVARCHAR(50)
+);
+
+DROP TABLE IF EXISTS erp_px_cat_g1v2;
+
+CREATE TABLE bronze.erp_px_cat_g1v2 (
+    id           NVARCHAR(50),
+    cat          NVARCHAR(50),
+    subcat       NVARCHAR(50),
+    maintenance  NVARCHAR(50)
+);
