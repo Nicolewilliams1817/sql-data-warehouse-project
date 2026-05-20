@@ -106,7 +106,7 @@ CASE WHEN sls_price IS NULL OR sls_price <= 0
 END AS sls_price
 FROM bronze.crm_sales_details
 
-TRUNCATE TABLE silver.erp_cust_az12 
+TRUNCATE TABLE silver.erp_cust_az12;
 
 INSERT INTO silver.erp_cust_az12 (
 cid,
@@ -125,6 +125,22 @@ CASE
      ELSE 'n/a'
 END AS gen
 FROM bronze.erp_cust_az12;
+
+
+TRUNCATE TABLE silver.erp_loc_a101;
+
+INSERT INTO silver.erp_loc_a101 (
+cid,
+cntry
+)
+SELECT 
+REPLACE(cid,'-','') AS cid,
+CASE WHEN TRIM(REPLACE(REPLACE(REPLACE(COALESCE(cntry,''),CHAR(13),''),CHAR(10),''),CHAR(9),'')) ='DE' THEN 'Germany'
+	 WHEN TRIM(REPLACE(REPLACE(REPLACE(COALESCE(cntry,''),CHAR(13),''),CHAR(10),''),CHAR(9),''))  IN ('US', 'USA') THEN 'United States'
+     WHEN TRIM(REPLACE(REPLACE(REPLACE(COALESCE(cntry,''),CHAR(13),''),CHAR(10),''),CHAR(9),'')) = '' OR cntry IS NULL THEN 'n/a'
+     ELSE TRIM(REPLACE(REPLACE(REPLACE(COALESCE(cntry,''),CHAR(13),''),CHAR(10),''),CHAR(9),'')) 
+END AS cntry
+FROM bronze.erp_loc_a101;
 
 
 
