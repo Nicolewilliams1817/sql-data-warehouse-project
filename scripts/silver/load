@@ -1,3 +1,15 @@
+/*
+==================================================================
+ETL Script: Load Silver Layer
+==================================================================
+Script Purpose: 
+    This script loads tables in the 'silver' schema, from the 
+bronze schema. 
+Tables are turncated first and followed by inserting 
+transformed and clean dats from the bronze layer.
+==================================================================
+*/
+
 TRUNCATE TABLE silver.crm_cust_info;
 
 INSERT INTO silver.crm_cust_info (
